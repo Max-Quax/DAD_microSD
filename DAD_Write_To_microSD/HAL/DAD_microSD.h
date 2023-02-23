@@ -12,7 +12,7 @@
 #include <string.h>
 
 #define MICRO_SD_BAUD_RATE 9600
-#define MICRO_SD_MODULE_INSTANCE EUSCI_A0_BASE  // Module instance - module A0 for debug
+#define MICRO_SD_MODULE_INSTANCE EUSCI_A2_BASE  // Module instance - module A0 for debug
 
 // Configures and Initializes UART
     // Parameter - structure for using the UART HAL
@@ -23,13 +23,13 @@ void DAD_microSD_InitUART(DAD_UART_Struct* uartStruct);
     // If filename does not exist, file is created
     // Parameter - array of chars for file name. 8.3 format
     // Parameter - structure for using the UART HAL
-static bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct);
+bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct);
 
 // Write to file
     // TODO write
     // Parameter - array of chars for file name. 8.3 format
     // Parameter - array of strs for message. writes as CSV
     // Parameter - structure for using the UART HALs
-bool DAD_microSD_write(char* fileName, char** message, uint16_t messageLen, DAD_UART_Struct* uartStruct);
+bool DAD_microSD_Write_CSV(char* fileName, char** message, uint16_t messageLen, DAD_UART_Struct* uartStruct);
 
 #endif /* HAL_DAD_MICROSD_H_ */

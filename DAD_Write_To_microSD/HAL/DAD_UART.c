@@ -91,6 +91,7 @@ void DAD_UART_Write_Char(DAD_UART_Struct* UARTPtr, char c){
 }
 
 // Write full message
+    // Kinda bad - CPU-intensive
 void DAD_UART_Write_Str(DAD_UART_Struct* UARTPtr, char* msg){
     uint16_t msgLength = strlen(msg);
     uint16_t i;

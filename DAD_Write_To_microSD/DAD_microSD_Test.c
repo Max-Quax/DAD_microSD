@@ -21,23 +21,28 @@ int main(void)
     DAD_microSD_InitUART(&microSD_UART);
 
     // Open file, write test message
-    char fileName[] = "test.csv";
+    char fileName[] = "msptest.csv";
     char *message[] = {"one", "two", "three", "four"};
-    DAD_microSD_write(fileName, message, 4, &microSD_UART);
+    DAD_microSD_Write_CSV(fileName, message, 4, &microSD_UART);
 
     //
     //Timed Test
     //
+    // New file
+    char fileName2[] = "test2.txt";
+    DAD_microSD_openFile(fileName2, &microSD_UART);
+
     // Timer setup
     double timeElapsed;
     Timer_A_UpModeConfig timerCfg;
     DAD_Timer_Initialize_ms(60000, TIMER_A1_BASE, &timerCfg);
 
     // Generate test string
-    int i;
-    char msg[2049] = "t";
-    for(i = 0; i < 2048; i++)
-    strcat(msg, "t");
+    //int i;
+//    char msg[2049] = "t";
+//    for(i = 0; i < 2048; i++)
+//        strcat(msg, "t");
+    char msg[] = "stttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttq";
 
     // Send test string over UART
     DAD_Timer_Start(TIMER_A1_BASE);                         // Begin test timer
