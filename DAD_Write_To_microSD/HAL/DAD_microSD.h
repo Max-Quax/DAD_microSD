@@ -10,9 +10,14 @@
 
 #include <HAL/DAD_UART.h>
 #include <string.h>
+#include <HAL/DAD_Timer.h>
 
 #define MICRO_SD_BAUD_RATE 9600
 #define MICRO_SD_MODULE_INSTANCE EUSCI_A2_BASE  // Module instance - module A0 for debug
+#define MICRO_SD_CMD_DELAY 50                   // Wait until command mode is entered
+
+// Enter command mode
+static void DAD_microSD_enterCMD(DAD_UART_Struct* uartStruct);
 
 // Configures and Initializes UART
     // Parameter - structure for using the UART HAL

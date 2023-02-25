@@ -7,9 +7,31 @@
 
 #include <HAL/DAD_microSD.h>
 
+static void DAD_microSD_enterCMD(DAD_UART_Struct* uartStruct){
+    // Open openLog microSD controller in cmd mode
+    char cmdMode[4] = "&&&";
+    DAD_UART_Write_Str(uartStruct, cmdMode);
+    DAD_UART_Write_Char(uartStruct, 13);        // Carriage return
+
+    // blocks until cmd mode was entered
+    //while(DAD_UART_GetChar(uartStruct) != '>');
+    Timer_A_UpModeConfig timerCfg;
+    DAD_Timer_Initialize_us(50, TIMER_A2_BASE, &timerCfg);
+    DAD_Timer_Start(TIMER_A2_BASE);
+    while(!DAD_Timer_Has_Finished(TIMER_A2_BASE));
+}
+
 void DAD_microSD_InitUART(DAD_UART_Struct* uartStruct){
+    // Initialize UART
     DAD_UART_Set_Config(MICRO_SD_BAUD_RATE, MICRO_SD_MODULE_INSTANCE, uartStruct);  // Config UART
     DAD_UART_Init(uartStruct, 512); // Init UART with 512-byte buffer
+
+    DAD_microSD_enterCMD(uartStruct);
+
+    // Initialize microSD reader
+    char cmd[] = "init";
+    DAD_UART_Write_Str(uartStruct, cmd);
+    DAD_UART_Write_Char(uartStruct, 13);        // Carriage return
 }
 
 bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct){
@@ -19,13 +41,7 @@ bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct){
     if(strlen(fileName) > 12)
         return false;
 
-    // Open openLog microSD controller in cmd mode
-    char cmdMode[4] = "&&&";
-    DAD_UART_Write_Str(uartStruct, cmdMode);
-    DAD_UART_Write_Char(uartStruct, 13);        // Carriage return
-
-
-    // TODO check that cmd mode was entered
+    DAD_microSD_enterCMD(uartStruct);
 
     // Append to file
     char command[20] = "append ";
