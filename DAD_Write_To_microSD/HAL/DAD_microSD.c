@@ -9,8 +9,8 @@
 
 static void DAD_microSD_enterCMD(DAD_UART_Struct* uartStruct){
     // Open openLog microSD controller in cmd mode
-    char cmdMode[4] = "&&&";
-    DAD_UART_Write_Str(uartStruct, cmdMode);
+    DAD_UART_Write_Str(uartStruct, "&&&");
+    DAD_UART_Write_Str(uartStruct, "&&&");
     DAD_UART_Write_Char(uartStruct, 13);        // Carriage return
 
     // blocks until cmd mode was entered
@@ -24,19 +24,17 @@ static void DAD_microSD_enterCMD(DAD_UART_Struct* uartStruct){
 void DAD_microSD_InitUART(DAD_UART_Struct* uartStruct){
     // Initialize UART
     DAD_UART_Set_Config(MICRO_SD_BAUD_RATE, MICRO_SD_MODULE_INSTANCE, uartStruct);  // Config UART
-    DAD_UART_Init(uartStruct, 512); // Init UART with 512-byte buffer
+    DAD_UART_Init(uartStruct, 512);             // Init UART with 512-byte buffer
+    MAP_UART_disableInterrupt(uartStruct->moduleInst, EUSCI_A_UART_RECEIVE_INTERRUPT);
 
     DAD_microSD_enterCMD(uartStruct);
 
     // Initialize microSD reader
-    char cmd[] = "init";
-    DAD_UART_Write_Str(uartStruct, cmd);
+    DAD_UART_Write_Str(uartStruct, "init");
     DAD_UART_Write_Char(uartStruct, 13);        // Carriage return
 }
 
 bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct){
-    MAP_UART_disableInterrupt(uartStruct->moduleInst, EUSCI_A_UART_RECEIVE_INTERRUPT);
-
     // Check name size
     if(strlen(fileName) > 12)
         return false;
@@ -70,3 +68,6 @@ bool DAD_microSD_Write_CSV(char* fileName, char** message, uint16_t messageLen, 
     return false;
 }
 
+void DAD_microSD_Write(char* fileName, char* message, DAD_UART_Struct* uartStruct){
+    DAD_UART_Write_Str(uartStruct, message);
+}

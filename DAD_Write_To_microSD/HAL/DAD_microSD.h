@@ -8,12 +8,12 @@
 #ifndef HAL_DAD_MICROSD_H_
 #define HAL_DAD_MICROSD_H_
 
-#include <HAL/DAD_UART.h>
 #include <string.h>
+#include <HAL/DAD_UART.h>
 #include <HAL/DAD_Timer.h>
 
 #define MICRO_SD_BAUD_RATE 9600
-#define MICRO_SD_MODULE_INSTANCE EUSCI_A2_BASE  // Module instance - module A0 for debug
+#define MICRO_SD_MODULE_INSTANCE EUSCI_A1_BASE  // Module instance - module A0 for debug
 #define MICRO_SD_CMD_DELAY 50                   // Wait until command mode is entered
 
 // Enter command mode
@@ -36,5 +36,7 @@ bool DAD_microSD_openFile(char* fileName, DAD_UART_Struct* uartStruct);
     // Parameter - array of strs for message. writes as CSV
     // Parameter - structure for using the UART HALs
 bool DAD_microSD_Write_CSV(char* fileName, char** message, uint16_t messageLen, DAD_UART_Struct* uartStruct);
+
+void DAD_microSD_Write(char* fileName, char* message, DAD_UART_Struct* uartStruct);
 
 #endif /* HAL_DAD_MICROSD_H_ */
